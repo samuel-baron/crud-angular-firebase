@@ -1,0 +1,45 @@
+<div class="d-flex justify-content-between
+            flex-wrap flex-md-nowrap align-items-center
+            pt-3 pb-2 mb-3 border-bottom">
+  <h2>Lista de Jogos</h2>
+</div>
+<div class="mx-auto">
+  <!-- LOADER -->
+  <div class="loaderWrapper" *ngIf="mostrarLoader">
+    <div class="loader"></div>
+  </div>
+  <!-- CONTEUDO LISTA VAZIA -->
+  <div class="text-center" *ngIf="listaVazia">
+    <p>Nenhum jogo adicionado ainda.</p>
+    <a routerLink="/add-jogo" class="btn btn-success">Adicionar Jogo</a>
+  </div>
+  <!-- CONTEUDO NORMAL -->
+  <div class="table-responsive" *ngIf="!listaVazia">
+    <table class="table table-bordered">
+      <thead>
+        <th scope="col">#</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Plataforma</th>
+        <th scope="col">Preco</th>
+        <th scope="col" class="text-center">Editar</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let jogo of listaJogo | paginate: { itemsPerPage: 8, currentPage: page};
+                    let i = index">
+          <th scope="row">{{i+1}}</th>
+          <td>{{jogo.nome}}</td>
+          <td>{{jogo.plataforma}}</td>
+          <td>{{jogo.preco}}</td>
+          <td class="text-center action-block">
+            <span class="btn btn-outline-primary btn-sm" routerLink="/edit-jogo/{{jogo.$key}}">Editar</span>
+            <span class="mx-2 btn btn-outline-danger btn-sm" (click)="deleteJogo(jogo)">Remover</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <pagination-controls class="text-end" previousLabel="Anterior" nextLabel="Próximo"
+      (pageChange)="page = $event"></pagination-controls>
+  </div>
+
+</div>
